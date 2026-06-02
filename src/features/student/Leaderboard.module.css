@@ -1,0 +1,287 @@
+/* Main container */
+.container {
+  padding: 20px;
+  color: var(--text-primary);
+}
+
+/* Title styling */
+.title {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Empty state text */
+.empty {
+  opacity: 0.6;
+}
+
+/* List container */
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Each leaderboard row */
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 12px 16px;
+  margin-bottom: 10px;
+
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+
+  transition: transform 0.55s cubic-bezier(0.34, 1.15, 0.64, 1), box-shadow 0.35s ease,
+    border-color 0.35s ease;
+}
+
+.itemRise {
+  animation: rankReorder 0.6s cubic-bezier(0.34, 1.2, 0.64, 1);
+  box-shadow: 0 0 0 1px rgba(110, 231, 183, 0.35), 0 8px 24px rgba(52, 211, 153, 0.12);
+  border-color: rgba(110, 231, 183, 0.45);
+}
+
+.itemFall {
+  animation: rankReorder 0.6s cubic-bezier(0.34, 1.2, 0.64, 1);
+  opacity: 0.92;
+}
+
+@keyframes rankReorder {
+  from {
+    transform: translateY(var(--rank-shift, 0));
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Hover effect */
+.item:hover {
+  transform: scale(1.02);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .itemRise,
+  .itemFall {
+    animation: none;
+  }
+}
+
+/* Rank number */
+.rank {
+  font-weight: bold;
+  width: 50px;
+}
+
+/* Email display */
+.email {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.studentBlock {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.emailSub {
+  font-size: 11px;
+  color: var(--text-secondary);
+  overflow-wrap: anywhere;
+}
+
+.badgesRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.badge {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--accent-indigo);
+  background: var(--accent-indigo-soft);
+  border: 1px solid var(--accent-indigo-border);
+  border-radius: 999px;
+  padding: 2px 7px;
+}
+
+/* XP value */
+.xp {
+  font-weight: bold;
+  color: #f5a623; /* amber XP color */
+}
+
+/* 🥇 1st place */
+.first {
+  border-left: 4px solid gold;
+}
+
+/* 🥈 2nd place */
+.second {
+  border-left: 4px solid silver;
+}
+
+/* 🥉 3rd place */
+.third {
+  border-left: 4px solid #cd7f32;
+}
+
+.finalSection {
+  margin-top: 18px;
+  border-top: 1px solid var(--border-color);
+  padding-top: 14px;
+}
+
+.finalTitle {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.finalList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.finalItem {
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  background: var(--bg-input);
+  padding: 10px;
+}
+
+.finalHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.finalActivity {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.finalStamp {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.finalTop3 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.finalPodium {
+  font-size: 11px;
+  color: var(--warning-amber);
+  background: var(--warning-amber-soft);
+  border: 1px solid var(--warning-amber-border);
+  border-radius: 999px;
+  padding: 2px 8px;
+}
+
+.headRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.tabs {
+  display: flex;
+  gap: 6px;
+}
+
+.tab {
+  height: 28px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-input);
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.tab:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.tabActive {
+  border-color: var(--accent-indigo);
+  background: var(--accent-indigo-soft);
+  color: var(--accent-indigo);
+}
+
+.tabHint {
+  margin: 0 0 10px;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.myRank {
+  margin: 10px 0 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent-indigo);
+}
+
+.itemMe {
+  border-color: var(--accent-indigo);
+  box-shadow: 0 0 0 1px rgba(108, 99, 255, 0.25);
+}
+
+.activityPicker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.activityLabel {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.activitySelect {
+  flex: 1;
+  min-width: 160px;
+  height: 30px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-input);
+  color: var(--text-primary);
+  font-size: 12px;
+  padding: 0 8px;
+}
+
+.lockedPill {
+  font-size: 10px;
+  color: var(--warning-amber);
+  background: var(--warning-amber-soft);
+  border: 1px solid var(--warning-amber-border);
+  border-radius: 999px;
+  padding: 3px 8px;
+}

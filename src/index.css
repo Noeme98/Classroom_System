@@ -1,0 +1,156 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Syne:wght@600;700&display=swap");
+
+:root {
+  --bg-page: #12111a;
+  --bg-surface: #1a1826;
+  --bg-elevated: #221e33;
+  --bg-highlight: #2d2250;
+
+  --accent: #7b2fbe;
+  --accent-hover: #9333ea;
+  --accent-soft: #2d2250;
+  --accent-muted: #a855f7;
+  --accent-glow: rgba(123, 47, 190, 0.2);
+
+  --teacher: #34d399;
+  --teacher-bg: rgba(52, 211, 153, 0.12);
+  --student: #c084fc;
+  --student-bg: rgba(192, 132, 252, 0.12);
+
+  --xp-gold: #f5a623;
+  --xp-gold-bg: rgba(245, 166, 35, 0.12);
+  --success: #34d399;
+  --success-bg: rgba(52, 211, 153, 0.12);
+  --warning: #f5a623;
+  --warning-bg: rgba(245, 166, 35, 0.12);
+  --danger: #e05c5c;
+  --danger-bg: rgba(224, 92, 92, 0.12);
+
+  --text-primary: #e8e6f4;
+  --text-secondary: #7a78a0;
+  --text-tertiary: #4a476a;
+
+  --border: #2a2740;
+  --border-strong: #3d3060;
+
+  --profile-card-bg: #251e38;
+  --profile-card-border: #3d3060;
+
+  --font-display: "Syne", sans-serif;
+  --font-body: "DM Sans", sans-serif;
+
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 14px;
+  --r-xl: 16px;
+  --transition: 0.15s ease;
+
+  --bg-input: var(--bg-elevated);
+  --border-color: var(--border);
+  --text-muted: var(--text-tertiary);
+  --accent-indigo: var(--accent);
+  --accent-indigo-soft: color-mix(in srgb, var(--accent) 18%, transparent);
+  --accent-indigo-border: color-mix(in srgb, var(--accent) 35%, transparent);
+  --accent-teacher: var(--teacher);
+  --accent-teacher-soft: var(--teacher-bg);
+  --accent-teacher-border: rgba(52, 211, 153, 0.35);
+  --accent-student: var(--danger);
+  --accent-student-soft: var(--danger-bg);
+  --accent-student-border: rgba(224, 92, 92, 0.35);
+  --warning-amber: var(--warning);
+  --warning-amber-soft: var(--warning-bg);
+  --warning-amber-border: rgba(245, 166, 35, 0.32);
+  --success-soft: var(--success-bg);
+  --success-border: rgba(52, 211, 153, 0.35);
+  --error-soft: var(--danger-bg);
+  --error-border: rgba(224, 92, 92, 0.35);
+}
+
+:root[data-theme="light"] {
+  --bg-page: #f2f1f6;
+  --bg-surface: #ffffff;
+  --bg-elevated: #f4f2fa;
+  --bg-highlight: #f0e8ff;
+
+  --accent: #7b2fbe;
+  --accent-hover: #6b28a8;
+  --accent-soft: #f0e8ff;
+  --accent-muted: #7b2fbe;
+  --accent-glow: rgba(123, 47, 190, 0.12);
+
+  --teacher: #059669;
+  --teacher-bg: rgba(5, 150, 105, 0.1);
+  --student: #7b2fbe;
+  --student-bg: rgba(123, 47, 190, 0.1);
+
+  --xp-gold: #d0891f;
+  --xp-gold-bg: rgba(208, 137, 31, 0.12);
+  --success: #059669;
+  --success-bg: rgba(5, 150, 105, 0.1);
+  --warning: #d0891f;
+  --warning-bg: rgba(208, 137, 31, 0.12);
+  --danger: #e05c5c;
+  --danger-bg: rgba(224, 92, 92, 0.1);
+
+  --text-primary: #1c1c2e;
+  --text-secondary: #5a5a7a;
+  --text-tertiary: #9a9aaf;
+
+  --border: #e4e2f0;
+  --border-strong: #d8d4ec;
+
+  --profile-card-bg: linear-gradient(135deg, #7b2fbe 0%, #9b59b6 100%);
+  --profile-card-border: transparent;
+
+  --accent-teacher-border: rgba(5, 150, 105, 0.35);
+  --accent-student-border: rgba(224, 92, 92, 0.35);
+  --warning-amber-border: rgba(208, 137, 31, 0.32);
+  --success-border: rgba(5, 150, 105, 0.35);
+  --error-border: rgba(224, 92, 92, 0.35);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+button {
+  font-family: var(--font-body);
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+input,
+textarea,
+select {
+  font-family: var(--font-body);
+  outline: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}

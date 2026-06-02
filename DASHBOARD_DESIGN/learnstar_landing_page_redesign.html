@@ -1,0 +1,180 @@
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  .page { background: #0f0a1e; font-family: sans-serif; color: #fff; border-radius: 16px; overflow: hidden; }
+
+  .nav { display: flex; align-items: center; justify-content: space-between; padding: 18px 32px; border-bottom: 0.5px solid rgba(255,255,255,0.08); }
+  .nav-logo { display: flex; align-items: center; gap: 10px; }
+  .nav-logo-icon { width: 34px; height: 34px; background: #1a0a2e; border-radius: 10px; display: flex; align-items: center; justify-content: center; border: 0.5px solid #534AB7; }
+  .nav-logo-name { font-size: 17px; font-weight: 500; letter-spacing: -0.02em; color: #fff; }
+  .nav-logo-name span { color: #8B7FE8; }
+  .nav-links { display: flex; align-items: center; gap: 24px; }
+  .nav-links a { font-size: 13px; color: rgba(255,255,255,0.55); text-decoration: none; }
+  .nav-links a:hover { color: #fff; }
+  .nav-cta { background: #7F77DD; color: #fff; border: none; border-radius: 8px; padding: 8px 18px; font-size: 13px; font-weight: 500; cursor: pointer; }
+
+  .hero { padding: 72px 32px 60px; text-align: center; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 7px; background: rgba(127,119,221,0.15); border: 0.5px solid rgba(127,119,221,0.4); border-radius: 20px; padding: 5px 14px; font-size: 12px; color: #C4B5FD; margin-bottom: 28px; }
+  .hero-badge-dot { width: 6px; height: 6px; background: #F59E0B; border-radius: 50%; }
+  .hero-h1 { font-size: 48px; font-weight: 500; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 8px; color: #fff; }
+  .hero-h1-accent { color: #8B7FE8; display: block; }
+  .hero-sub { font-size: 16px; color: rgba(255,255,255,0.5); line-height: 1.7; max-width: 440px; margin: 18px auto 36px; }
+  .hero-btns { display: flex; align-items: center; justify-content: center; gap: 12px; }
+  .btn-primary { background: #7F77DD; color: #fff; border: none; border-radius: 10px; padding: 13px 28px; font-size: 15px; font-weight: 500; cursor: pointer; }
+  .btn-secondary { background: transparent; color: #fff; border: 0.5px solid rgba(255,255,255,0.2); border-radius: 10px; padding: 13px 28px; font-size: 15px; cursor: pointer; }
+
+  .stats-row { display: flex; justify-content: center; gap: 0; margin: 52px 32px 0; border: 0.5px solid rgba(255,255,255,0.08); border-radius: 14px; overflow: hidden; }
+  .stat-item { flex: 1; padding: 20px; text-align: center; border-right: 0.5px solid rgba(255,255,255,0.08); }
+  .stat-item:last-child { border-right: none; }
+  .stat-num { font-size: 24px; font-weight: 500; color: #fff; }
+  .stat-label { font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 3px; }
+
+  .features { padding: 56px 32px 0; }
+  .features-eyebrow { font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: #8B7FE8; margin-bottom: 10px; }
+  .features-title { font-size: 28px; font-weight: 500; letter-spacing: -0.02em; color: #fff; margin-bottom: 32px; }
+  .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .feat-card { background: #16112a; border: 0.5px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 24px; }
+  .feat-card:hover { border-color: rgba(127,119,221,0.4); }
+  .feat-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; font-size: 18px; }
+  .feat-icon.purple { background: rgba(127,119,221,0.18); color: #C4B5FD; }
+  .feat-icon.gold { background: rgba(245,158,11,0.15); color: #FCD34D; }
+  .feat-icon.green { background: rgba(29,158,117,0.15); color: #6EE7B7; }
+  .feat-title { font-size: 15px; font-weight: 500; color: #fff; margin-bottom: 8px; }
+  .feat-desc { font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.6; }
+
+  .xp-bar-section { margin: 48px 32px 0; background: #16112a; border: 0.5px solid rgba(127,119,221,0.25); border-radius: 14px; padding: 28px; display: flex; align-items: center; gap: 28px; }
+  .xp-avatar { width: 52px; height: 52px; background: #2a1f4a; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 500; color: #C4B5FD; flex-shrink: 0; }
+  .xp-info { flex: 1; }
+  .xp-name { font-size: 15px; font-weight: 500; color: #fff; margin-bottom: 2px; }
+  .xp-meta { font-size: 12px; color: rgba(255,255,255,0.4); margin-bottom: 10px; }
+  .xp-track { background: rgba(255,255,255,0.08); border-radius: 99px; height: 6px; overflow: hidden; }
+  .xp-fill { background: #7F77DD; border-radius: 99px; height: 100%; width: 68%; }
+  .xp-count { font-size: 12px; color: #C4B5FD; margin-top: 5px; }
+  .xp-badges { display: flex; gap: 8px; flex-shrink: 0; }
+  .badge-pill { background: rgba(245,158,11,0.15); border: 0.5px solid rgba(245,158,11,0.3); border-radius: 20px; padding: 5px 12px; font-size: 11px; color: #FCD34D; display: flex; align-items: center; gap: 5px; }
+  .badge-pill i { font-size: 13px; }
+
+  .cta-section { margin: 48px 32px 40px; background: #1a0f35; border: 0.5px solid rgba(127,119,221,0.3); border-radius: 16px; padding: 44px 32px; text-align: center; }
+  .cta-title { font-size: 28px; font-weight: 500; letter-spacing: -0.02em; color: #fff; margin-bottom: 10px; }
+  .cta-sub { font-size: 14px; color: rgba(255,255,255,0.45); margin-bottom: 28px; }
+  .cta-btns { display: flex; justify-content: center; gap: 12px; }
+
+  .footer { padding: 20px 32px; border-top: 0.5px solid rgba(255,255,255,0.07); display: flex; align-items: center; justify-content: space-between; }
+  .footer-copy { font-size: 12px; color: rgba(255,255,255,0.25); }
+  .footer-links { display: flex; gap: 18px; }
+  .footer-links a { font-size: 12px; color: rgba(255,255,255,0.3); text-decoration: none; }
+</style>
+
+<h2 class="sr-only">LearnStar redesigned landing page mockup with navigation, hero, feature cards, XP preview, and CTA section.</h2>
+
+<div class="page">
+
+  <nav class="nav">
+    <div class="nav-logo">
+      <div class="nav-logo-icon">
+        <svg width="20" height="20" viewBox="0 0 32 32" fill="none">
+          <polygon points="16,3 19.5,12 29,12 21.5,17.5 24.5,27 16,22 7.5,27 10.5,17.5 3,12 12.5,12" fill="#8B5CF6" stroke="#C4B5FD" stroke-width="0.8"/>
+          <text x="16" y="18" text-anchor="middle" font-size="7" font-weight="700" fill="white" font-family="sans-serif">XP</text>
+        </svg>
+      </div>
+      <span class="nav-logo-name">Learn<span>Star</span></span>
+    </div>
+    <div class="nav-links">
+      <a href="#">For teachers</a>
+      <a href="#">For students</a>
+      <a href="#">Leaderboards</a>
+      <a href="#">Pricing</a>
+    </div>
+    <button class="nav-cta">Get started</button>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      XP-powered learning
+    </div>
+    <h1 class="hero-h1">
+      The classroom that
+      <span class="hero-h1-accent">rewards progress</span>
+    </h1>
+    <p class="hero-sub">Teachers create classes. Students earn XP, unlock badges, and compete on leaderboards. Learning meets motivation.</p>
+    <div class="hero-btns">
+      <button class="btn-primary">Get started — it's free</button>
+      <button class="btn-secondary">Log in</button>
+    </div>
+  </section>
+
+  <div class="stats-row">
+    <div class="stat-item">
+      <div class="stat-num">12,400+</div>
+      <div class="stat-label">Active students</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">870</div>
+      <div class="stat-label">Classes created</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">3.2M</div>
+      <div class="stat-label">XP earned</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">98%</div>
+      <div class="stat-label">Completion rate</div>
+    </div>
+  </div>
+
+  <section class="features">
+    <div class="features-eyebrow">How it works</div>
+    <div class="features-title">Built for teachers. Loved by students.</div>
+    <div class="features-grid">
+      <div class="feat-card">
+        <div class="feat-icon purple"><i class="ti ti-school" aria-hidden="true"></i></div>
+        <div class="feat-title">For teachers</div>
+        <div class="feat-desc">Create classes, post assignments, and track every student's progress in one place.</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon gold"><i class="ti ti-bolt" aria-hidden="true"></i></div>
+        <div class="feat-title">For students</div>
+        <div class="feat-desc">Join classes with a code, submit work, and earn XP for every completed task.</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon green"><i class="ti ti-trophy" aria-hidden="true"></i></div>
+        <div class="feat-title">Leaderboards</div>
+        <div class="feat-desc">See where you rank in your class. Compete, improve, and climb to the top.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="xp-bar-section">
+    <div class="xp-avatar">JS</div>
+    <div class="xp-info">
+      <div class="xp-name">Jamie Santos</div>
+      <div class="xp-meta">Grade 10 · Math & Science · Level 7</div>
+      <div class="xp-track"><div class="xp-fill"></div></div>
+      <div class="xp-count">680 / 1,000 XP to Level 8</div>
+    </div>
+    <div class="xp-badges">
+      <div class="badge-pill"><i class="ti ti-star" aria-hidden="true"></i> Top 3</div>
+      <div class="badge-pill"><i class="ti ti-flame" aria-hidden="true"></i> 7-day streak</div>
+    </div>
+  </div>
+
+  <section class="cta-section">
+    <div class="cta-title">Ready to level up your classroom?</div>
+    <div class="cta-sub">Free to start. No credit card needed. Set up in under 5 minutes.</div>
+    <div class="cta-btns">
+      <button class="btn-primary">Create your class</button>
+      <button class="btn-secondary">See a demo</button>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <span class="footer-copy">© 2026 LearnStar</span>
+    <div class="footer-links">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Support</a>
+    </div>
+  </footer>
+
+</div>

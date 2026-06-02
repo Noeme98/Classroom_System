@@ -1,0 +1,308 @@
+/* ============================================================
+   Dashboard.module.css
+   Styles the outer shell: navbar, welcome banner,
+   stat cards, and the two-column layout grid.
+   ============================================================ */
+
+/* ── Outer page wrapper ── */
+.page {
+  min-height: 100vh;
+  background-color: var(--bg-page);
+
+  /* Subtle dot grid gives depth without being distracting */
+  background-image: radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* ── Top navigation bar ── */
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  height: 60px;
+
+  /* Frosted glass effect — sits above the dot grid */
+  background-color: rgba(11, 13, 20, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+
+  /* Sticks to the top as user scrolls */
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* ── Brand logo text ── */
+.brand {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+/* The colored part of the brand name */
+.brandAccent {
+  color: var(--accent);
+}
+
+/* ── Right side of the navbar ── */
+.navRight {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ── Role badge (Teacher / Student pill) ── */
+.roleBadge {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+/* Teacher badge — teal */
+.roleBadgeTeacher {
+  background-color: var(--teacher-bg);
+  color: var(--teacher);
+  border: 1px solid rgba(0, 200, 150, 0.2);
+}
+
+/* Student badge — coral */
+.roleBadgeStudent {
+  background-color: var(--student-bg);
+  color: var(--student);
+  border: 1px solid rgba(255, 107, 107, 0.2);
+}
+
+/* ── Avatar circle ── */
+.avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: var(--font-display);
+}
+
+.avatarTeacher {
+  background-color: var(--teacher-bg);
+  color: var(--teacher);
+  border: 1px solid rgba(0, 200, 150, 0.25);
+}
+
+.avatarStudent {
+  background-color: var(--student-bg);
+  color: var(--student);
+  border: 1px solid rgba(255, 107, 107, 0.25);
+}
+
+/* ── Logout button ── */
+.logoutBtn {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  background: none;
+  padding: 6px 12px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--border);
+  transition: color var(--transition), border-color var(--transition);
+}
+
+.logoutBtn:hover {
+  color: var(--danger);
+  border-color: rgba(255, 107, 107, 0.3);
+}
+
+/* ── Main content area ── */
+.main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 36px 32px;
+}
+
+/* ── Welcome banner ── */
+.welcome {
+  margin-bottom: 28px;
+
+  /* Left border accent — teacher gets teal, student gets coral */
+  padding-left: 18px;
+  border-left: 3px solid var(--accent);
+}
+
+.welcomeTeacher {
+  border-left-color: var(--teacher);
+}
+
+.welcomeStudent {
+  border-left-color: var(--student);
+}
+
+.welcomeTitle {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+}
+
+.welcomeSub {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+/* ── Stat cards row ── */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+/* Single stat card */
+.stat {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 18px 20px;
+
+  /* Subtle entrance animation */
+  animation: fadeUp 0.4s ease both;
+}
+
+/* Stagger each stat card's animation */
+.stat:nth-child(1) { animation-delay: 0.05s; }
+.stat:nth-child(2) { animation-delay: 0.10s; }
+.stat:nth-child(3) { animation-delay: 0.15s; }
+.stat:nth-child(4) { animation-delay: 0.20s; }
+
+.stat:hover {
+  border-color: var(--border-strong);
+  background-color: var(--bg-elevated);
+  transition: all var(--transition);
+}
+
+/* Label above the number */
+.statLabel {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+}
+
+/* The big number */
+.statValue {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+/* Colored variants for specific stats */
+.statValueAccent  { color: var(--accent); }
+.statValueTeacher { color: var(--teacher); }
+.statValueStudent { color: var(--student); }
+.statValueGold    { color: var(--xp-gold); }
+
+/* Small hint below the number */
+.statHint {
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+
+/* ── Two-column layout for panels ── */
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+/* Full-width single panel */
+.gridFull {
+  margin-bottom: 16px;
+}
+
+/* ── Shared card shell ── */
+.card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: 22px 24px;
+  animation: fadeUp 0.4s ease both;
+}
+
+.card:hover {
+  border-color: var(--border-strong);
+  transition: border-color var(--transition);
+}
+
+/* ── Card header row ── */
+.cardHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.cardTitle {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Small action link in the card header */
+.cardAction {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--accent);
+  cursor: pointer;
+  transition: opacity var(--transition);
+}
+
+.cardAction:hover {
+  opacity: 0.7;
+}
+
+/* ── Fade up entrance animation ── */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Responsive: stack to single column on smaller screens ── */
+@media (max-width: 768px) {
+  .main {
+    padding: 24px 16px;
+  }
+
+  .stats {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .grid2 {
+    grid-template-columns: 1fr;
+  }
+
+  .nav {
+    padding: 0 16px;
+  }
+}

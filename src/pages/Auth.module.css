@@ -1,0 +1,397 @@
+.page {
+  min-height: 100vh;
+  background: #12111a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  font-family: "DM Sans", sans-serif;
+}
+
+.card {
+  background: rgba(26, 24, 38, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 440px;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(139, 127, 232, 0.08);
+}
+
+.header { text-align: center; margin-bottom: 2rem; }
+
+.logoIcon {
+  width: 52px; height: 52px;
+  background: #7b2fbe;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  margin: 0 auto 1rem;
+  color: #fff;
+  animation: logoPulse 2.8s ease-in-out infinite;
+  box-shadow: 0 0 24px rgba(123, 47, 190, 0.35);
+}
+
+@keyframes logoPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 20px rgba(123, 47, 190, 0.3);
+  }
+  50% {
+    transform: scale(1.04);
+    box-shadow: 0 0 32px rgba(147, 51, 234, 0.45);
+  }
+}
+
+.title {
+  font-family: "Syne", sans-serif;
+  font-size: 22px; font-weight: 700; color: #e8e6f4; margin-bottom: 6px;
+}
+
+.subtitle { font-size: 13px; color: #7a78a0; }
+
+.sectionLabel {
+  font-size: 11px; font-weight: 600; color: #555872;
+  text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px;
+}
+
+.roleSelector {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 10px; margin-bottom: 1.5rem;
+}
+
+.roleCard {
+  background: #12111a;
+  border: 1.5px solid #2a2d3e;
+  border-radius: 12px; padding: 14px 12px;
+  cursor: pointer; text-align: center; transition: all 0.2s;
+  font-family: 'Inter', sans-serif;
+  width: 100%;
+}
+
+.roleTeacher { border-color: #00c896; background: rgba(0,200,150,0.07); }
+.roleStudent  { border-color: #ff6b6b; background: rgba(255,107,107,0.07); }
+
+.roleIcon { font-size: 20px; margin-bottom: 6px; }
+
+.roleLabel {
+  font-size: 13px; font-weight: 600;
+  color: #a0a3b1; display: block;
+}
+.roleTeacher .roleLabel { color: #00c896; }
+.roleStudent  .roleLabel { color: #ff6b6b; }
+
+.roleDesc { font-size: 11px; color: #555872; display: block; margin-top: 2px; }
+
+.field { margin-bottom: 1.1rem; }
+
+.field label {
+  display: block; font-size: 12px; font-weight: 500;
+  color: #a0a3b1; margin-bottom: 6px;
+  letter-spacing: 0.04em; text-transform: uppercase;
+}
+
+.field input {
+  width: 100%; background: #12111a;
+  border: 1px solid #2a2d3e; border-radius: 10px;
+  padding: 11px 14px; font-size: 14px;
+  color: #fff; outline: none; transition: border-color 0.2s;
+  font-family: 'Inter', sans-serif;
+}
+.field input:focus { border-color: #7b2fbe; }
+.field input::placeholder { color: #555872; }
+
+.passwordWrap {
+  position: relative;
+}
+
+.passwordWrap input {
+  padding-right: 44px;
+}
+
+.passwordToggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  background: none;
+  border: none;
+  color: #555872;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.passwordToggle:hover {
+  color: #a0a3b1;
+}
+
+.passwordToggle:focus-visible {
+  outline: 2px solid #7b2fbe;
+  border-radius: 4px;
+  color: #a0a3b1;
+}
+
+.field .otpInput {
+  text-align: center;
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: 0.35em;
+  padding: 11px 1rem;
+}
+
+.btn {
+  width: 100%; padding: 13px; border: none;
+  border-radius: 12px; font-size: 15px; font-weight: 600;
+  font-family: "Syne", sans-serif;
+  cursor: pointer; margin-top: 0.5rem;
+  color: #fff; transition: all 0.2s;
+}
+.btn:hover { opacity: 0.9; transform: translateY(-1px); }
+.btn:active { transform: scale(0.98); }
+
+.btnPurple { background: linear-gradient(135deg, #7b2fbe, #9333ea); }
+.btnTeal   { background: linear-gradient(135deg, #00c896, #00a87a); }
+.btnCoral  { background: linear-gradient(135deg, #ff6b6b, #e04f4f); }
+
+.xpBadge {
+  display: flex; align-items: center; gap: 8px;
+  background: rgba(245,166,35,0.08);
+  border: 1px solid rgba(245,166,35,0.2);
+  border-radius: 10px; padding: 10px 14px; margin-top: 1.2rem;
+  font-size: 12px; color: #f5a623;
+  animation: streakNudge 3s ease-in-out infinite;
+}
+
+@keyframes streakNudge {
+  0%,
+  100% {
+    border-color: rgba(245, 166, 35, 0.2);
+  }
+  50% {
+    border-color: rgba(252, 211, 77, 0.45);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logoIcon,
+  .xpBadge {
+    animation: none;
+  }
+}
+.btnDisabled {
+  background: #2a2d3e;
+  color: #555872;
+  cursor: not-allowed;
+}
+
+.errorText {
+  margin: 0.2rem 0 0.4rem;
+  color: #ff8f8f;
+  font-size: 12px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.successText {
+  margin: 0.2rem 0 0.4rem;
+  color: #9dd9c8;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.helperRow {
+  display: flex;
+  justify-content: flex-end;
+  margin: -0.45rem 0 0.6rem;
+}
+
+.authSwitch {
+  margin-top: 1rem;
+  text-align: center;
+  color: #a0a3b1;
+  font-size: 12px;
+}
+
+.linkBtn {
+  background: none;
+  border: none;
+  color: #8f9bff;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 0;
+  text-decoration: underline;
+}
+
+.verifyPanel {
+  margin-top: 0.5rem;
+  padding: 1.25rem 1.2rem;
+  border-radius: 16px;
+  background: linear-gradient(145deg, rgba(108, 99, 255, 0.06), rgba(15, 17, 23, 0.95));
+  border: 1px solid rgba(108, 99, 255, 0.22);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+}
+
+.verifyPanelTop {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.verifyIcon {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: rgba(108, 99, 255, 0.15);
+  border: 1px solid rgba(108, 99, 255, 0.25);
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.verifyHeading {
+  margin: 0 0 0.35rem;
+  font-family: "Syne", sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #f0f1f5;
+  letter-spacing: -0.02em;
+}
+
+.verifyLead {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #9b9eb8;
+}
+
+.verifyEmail {
+  color: #c4c7dc;
+  font-weight: 600;
+  word-break: break-all;
+}
+
+.verifyNotice {
+  margin: 0 0 1rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: 10px;
+  background: rgba(125, 211, 192, 0.08);
+  border: 1px solid rgba(125, 211, 192, 0.18);
+  color: #9dd9c8;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.verifyHint {
+  margin: 0 0 1rem;
+  font-size: 11px;
+  line-height: 1.5;
+  color: #6c7088;
+}
+
+.verifyHint strong {
+  color: #9b9eb8;
+  font-weight: 600;
+}
+
+.verifyCode {
+  font-family: ui-monospace, monospace;
+  font-size: 10px;
+  background: rgba(15, 17, 23, 0.9);
+  padding: 2px 5px;
+  border-radius: 4px;
+  color: #c4c7dc;
+  word-break: break-all;
+}
+
+.btnResend {
+  width: 100%;
+  padding: 11px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(108, 99, 255, 0.45);
+  background: rgba(108, 99, 255, 0.12);
+  color: #d4d2ff;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: "Syne", sans-serif;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.btnResend:hover:not(:disabled) {
+  background: rgba(108, 99, 255, 0.22);
+  border-color: rgba(167, 139, 250, 0.55);
+  color: #fff;
+}
+
+.btnResend:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.authNoticeSuccess {
+  margin: 0 0 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: #c8eadf;
+  background: rgba(125, 211, 192, 0.1);
+  border: 1px solid rgba(125, 211, 192, 0.22);
+}
+
+.authNoticeError {
+  margin: 0 0 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: #ffc9c9;
+  background: rgba(255, 107, 107, 0.08);
+  border: 1px solid rgba(255, 107, 107, 0.25);
+}
+
+.btnSecondary {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #3d4158;
+  background: transparent;
+  color: #c8cad4;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: "Syne", sans-serif;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.btnSecondary:hover:not(:disabled) {
+  border-color: #7b2fbe;
+  color: #fff;
+}
+
+.btnSecondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.xpTeacher {
+  border-color: rgba(0, 200, 150, 0.2);
+  background: rgba(0, 200, 150, 0.07);
+  color: #00c896;
+}
+
+.xpStudent {
+  border-color: rgba(255, 107, 107, 0.2);
+  background: rgba(255, 107, 107, 0.07);
+  color: #ff6b6b;
+}

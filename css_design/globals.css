@@ -1,0 +1,101 @@
+/* ============================================================
+   globals.css
+   Import this ONCE in main.jsx — applies to the whole app.
+   Contains fonts, CSS variables, and base resets.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap');
+
+/* ── Design Tokens ── */
+:root {
+  /* Backgrounds — layered dark surfaces */
+  --bg-page:       #0b0d14;   /* deepest background — the page itself */
+  --bg-surface:    #13151f;   /* cards, panels */
+  --bg-elevated:   #1c1f2e;   /* inputs, hover states, inner elements */
+  --bg-highlight:  #252840;   /* selected/active states */
+
+  /* Accent colors */
+  --accent:        #6c63ff;   /* purple — primary brand */
+  --accent-hover:  #574fd6;   /* darker purple for hover */
+  --accent-glow:   rgba(108, 99, 255, 0.18); /* transparent purple glow */
+
+  /* Role colors */
+  --teacher:       #00c896;   /* teal — teacher identity */
+  --teacher-bg:    rgba(0, 200, 150, 0.10);
+  --student:       #ff6b6b;   /* coral — student identity */
+  --student-bg:    rgba(255, 107, 107, 0.10);
+
+  /* Semantic colors */
+  --xp-gold:       #f5a623;   /* amber — XP and rewards */
+  --xp-gold-bg:    rgba(245, 166, 35, 0.12);
+  --success:       #00c896;
+  --success-bg:    rgba(0, 200, 150, 0.10);
+  --warning:       #f5a623;
+  --warning-bg:    rgba(245, 166, 35, 0.12);
+  --danger:        #ff6b6b;
+  --danger-bg:     rgba(255, 107, 107, 0.10);
+
+  /* Text */
+  --text-primary:   #f0f1f5;  /* near-white main text */
+  --text-secondary: #8b8fa8;  /* muted gray for subtitles */
+  --text-tertiary:  #555870;  /* very muted — placeholders, hints */
+
+  /* Borders */
+  --border:        rgba(255, 255, 255, 0.07);  /* subtle card border */
+  --border-strong: rgba(255, 255, 255, 0.13);  /* slightly visible */
+
+  /* Typography */
+  --font-display: 'Sora', sans-serif;   /* headings, brand, bold labels */
+  --font-body:    'DM Sans', sans-serif; /* everything else */
+
+  /* Spacing scale */
+  --r-sm:  8px;
+  --r-md:  12px;
+  --r-lg:  16px;
+  --r-xl:  20px;
+
+  /* Transitions */
+  --transition: 0.18s ease;
+}
+
+/* ── Global Reset ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  height: 100%;
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Remove default list styles */
+ul, ol {
+  list-style: none;
+}
+
+/* Remove default button styles */
+button {
+  font-family: var(--font-body);
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+/* Remove default input styles */
+input, textarea, select {
+  font-family: var(--font-body);
+  outline: none;
+}
+
+/* Remove default anchor styles */
+a {
+  text-decoration: none;
+  color: inherit;
+}

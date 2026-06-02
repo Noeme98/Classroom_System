@@ -1,0 +1,271 @@
+.card {
+  background: var(--bg-surface);
+  border: 0.5px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.count {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
+  padding: 4px 10px;
+}
+
+.compose {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.textarea,
+.input {
+  width: 100%;
+  border: 1px solid var(--border-color);
+  background: var(--bg-input);
+  color: var(--text-primary);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 14px;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 72px;
+}
+
+.composeActions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.postBtn {
+  border: none;
+  background: linear-gradient(135deg, var(--accent-indigo), #7c3aed);
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.postBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.msgSuccess,
+.msgError {
+  font-size: 13px;
+  margin: 0 0 12px;
+}
+
+.msgSuccess {
+  color: #22c55e;
+}
+
+.msgError {
+  color: #f87171;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.empty {
+  color: var(--text-secondary);
+  font-size: 14px;
+  padding: 12px 0;
+}
+
+.item {
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+}
+
+.itemHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.author {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+.when {
+  font-size: 12px;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.body {
+  margin: 0 0 8px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-primary);
+  white-space: pre-wrap;
+}
+
+.link {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent-indigo);
+  text-decoration: none;
+  margin-bottom: 8px;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.deleteBtn {
+  border: none;
+  background: transparent;
+  color: #f87171;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+}
+
+.deleteBtn:hover {
+  text-decoration: underline;
+}
+
+.splitWrap,
+.singleWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cardHead {
+  padding: 14px 16px;
+  border-bottom: 0.5px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cardHeadTitle {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cardHeadTitle i {
+  font-size: 16px;
+  color: var(--accent);
+}
+
+.countBadge {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: var(--bg-elevated);
+  border: 0.5px solid var(--border-color);
+  border-radius: 20px;
+  padding: 3px 9px;
+}
+
+.cardBody {
+  padding: 16px;
+}
+
+.legacyCard {
+  background: var(--bg-surface);
+  border: 0.5px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+
+.splitWrap .postBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  border-radius: 8px;
+  background: var(--accent);
+  padding: 9px 16px;
+}
+
+.splitWrap .empty {
+  text-align: center;
+  padding: 24px 12px;
+}
+
+.splitWrap .empty h4 {
+  margin: 0 0 4px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.splitWrap .empty p {
+  margin: 0;
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+
+.splitWrap .emptyIcon {
+  width: 48px;
+  height: 48px;
+  background: var(--accent-soft);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+  font-size: 22px;
+  color: var(--accent);
+}
