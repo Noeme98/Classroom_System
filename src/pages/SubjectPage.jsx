@@ -9,6 +9,7 @@ import ClassRoster from "../features/teacher/ClassRoster";
 import StudentProgress from "../features/student/StudentProgress";
 import StudentClassGrades from "../features/student/StudentClassGrades";
 import ClassStream from "../features/stream/ClassStream";
+import TeacherAnalytics from "../features/teacher/TeacherAnalytics";
 import { getAssignmentsByClass, syncAssignmentsByClass } from "../features/teacher/assignmentUtils";
 import { exportGradebookCsv } from "../features/teacher/gradebookUtils";
 import { syncSubmissionsByClass } from "../features/student/submissionUtils";
@@ -23,6 +24,7 @@ import styles from "./SubjectPage.module.css";
 const TEACHER_TABS = [
   { id: "announcements", label: "Announcements", icon: "ti-speakerphone" },
   { id: "assignments", label: "Assignments", icon: "ti-clipboard-list" },
+  { id: "analytics", label: "Analytics", icon: "ti-chart-bar" },
   { id: "roster", label: "Roster", icon: "ti-users" },
   { id: "submissions", label: "Submissions", icon: "ti-file-check" },
 ];
@@ -233,6 +235,9 @@ function SubjectPage() {
                 view="assignments"
                 embedded
               />
+            )}
+            {teacherTab === "analytics" && (
+              <TeacherAnalytics classId={activeClass.id} className={activeClass.name} />
             )}
             {teacherTab === "roster" && (
               <ClassRoster

@@ -2,7 +2,7 @@
 import { getItem, setItem } from "../../utils/storage";
 
 // Import XP system
-import { awardSubmissionProgress, awardGradingBonus } from "../system/xpUtils";
+import { awardSubmissionProgress, awardGradingBonus, syncXPByClass } from "../system/xpUtils";
 import { getAssignments } from "../teacher/assignmentUtils";
 import { notifyUsers } from "../../utils/notificationUtils";
 import { getTeacherEmailForClass } from "../teacher/teacherUtils";
@@ -21,6 +21,15 @@ import {
 // Storage key
 const SUBMISSIONS_KEY = "submissions";
 const saveSubmissions = (submissions) => setItem(SUBMISSIONS_KEY, submissions);
+
+const formatDbError = (err, fallback) => {
+  const msg = String(err?.message || "").trim();
+  if (!msg) return fallback;
+  if (msg.toLowerCase().includes("permission") || msg.toLowerCase().includes("not allowed")) {
+    return "You are not allowed to perform this action.";
+  }
+  return msg;
+};
 
 async function writeSubmissionRow(writeFn) {
   let result = await writeFn(SUBMISSION_SELECT_FULL);
@@ -417,17 +426,23 @@ export const gradeSubmission = async (submissionId, score, feedback = "") => {
     gradedAt: new Date().toISOString(),
   };
 
+  let serverBonusXP = null;
   if (isSupabaseConfigured) {
     try {
-      const payload = {
-        grade: numericScore,
-        feedback: feedback.trim(),
-        graded_at: new Date().toISOString(),
-      };
-      const { error } = await supabase.from("submissions").update(payload).eq("id", submissionId);
-      if (error) throw error;
+      const { data: rpcData, error: rpcError } = await supabase.rpc("grade_submission_with_bonus", {
+        p_submission_id: submissionId,
+        p_score: numericScore,
+        p_feedback: feedback.trim(),
+      });
+
+      if (rpcError) throw rpcError;
+      if (rpcData && typeof rpcData === "object") {
+        serverBonusXP = Number(rpcData.bonus_xp);
+      } else if (Array.isArray(rpcData) && rpcData.length > 0) {
+        serverBonusXP = Number(rpcData[0]?.bonus_xp);
+      }
     } catch (err) {
-      return { success: false, message: err.message || "Failed to save grade in database." };
+      return { success: false, message: formatDbError(err, "Failed to save grade in database.") };
     }
   }
 
@@ -436,24 +451,35 @@ export const gradeSubmission = async (submissionId, score, feedback = "") => {
   saveSubmissions(updated);
 
   let gradingProgress = null;
-  try {
-    // Important: grading now contributes bonus XP to reward high performance.
-    gradingProgress = awardGradingBonus({
-      studentEmail: updatedSubmission.studentEmail,
-      classId: updatedSubmission.classId,
-      score: numericScore,
-    });
-  } catch (err) {
-    console.error("Grading bonus failed:", err);
+  let bonusInfo = "";
+  let badgeInfo = "";
+  if (isSupabaseConfigured) {
+    try {
+      await syncXPByClass(updatedSubmission.classId);
+    } catch {
+      // non-blocking local sync refresh
+    }
+    const resolvedBonus = Number.isFinite(serverBonusXP) ? serverBonusXP : 0;
+    bonusInfo = ` +${resolvedBonus} XP performance bonus`;
+  } else {
+    try {
+      // Local-only fallback keeps legacy behavior when DB is unavailable.
+      gradingProgress = awardGradingBonus({
+        studentEmail: updatedSubmission.studentEmail,
+        classId: updatedSubmission.classId,
+        score: numericScore,
+      });
+    } catch (err) {
+      console.error("Grading bonus failed:", err);
+    }
+    bonusInfo = gradingProgress
+      ? ` +${gradingProgress.bonusXP} XP performance bonus`
+      : " grading bonus unavailable";
+    badgeInfo =
+      gradingProgress && gradingProgress.unlockedBadges.length > 0
+        ? ` Badge unlocked: ${gradingProgress.unlockedBadges.join(", ")}.`
+        : "";
   }
-
-  const bonusInfo = gradingProgress
-    ? ` +${gradingProgress.bonusXP} XP performance bonus`
-    : " grading bonus unavailable";
-  const badgeInfo =
-    gradingProgress && gradingProgress.unlockedBadges.length > 0
-      ? ` Badge unlocked: ${gradingProgress.unlockedBadges.join(", ")}.`
-      : "";
 
   notifyUsers({
     recipientEmails: [updatedSubmission.studentEmail],

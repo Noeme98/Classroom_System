@@ -3,8 +3,10 @@ import {
   createAnnouncement,
   deleteAnnouncement,
   getAnnouncementsByClass,
+  isAnnouncementsRemoteAvailable,
   syncAnnouncementsByClass,
 } from "./announcementUtils";
+import { isSupabaseConfigured, supabase } from "../../utils/supabaseClient";
 import styles from "./ClassStream.module.css";
 
 function formatWhen(iso) {
@@ -38,7 +40,26 @@ function ClassStream({ classId, isTeacher, user, layout = "default" }) {
     run();
   }, [classId]);
 
+  useEffect(() => {
+    if (!classId || !isSupabaseConfigured) return undefined;
+    const channel = supabase
+      .channel(`announcements-${classId}`)
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "announcements", filter: `class_id=eq.${classId}` },
+        async () => {
+          await syncAnnouncementsByClass(classId);
+          setRefreshTick((n) => n + 1);
+        }
+      )
+      .subscribe();
+    return () => {
+      void supabase.removeChannel(channel);
+    };
+  }, [classId]);
+
   const announcements = getAnnouncementsByClass(classId);
+  const localMode = isSupabaseConfigured && !isAnnouncementsRemoteAvailable();
 
   const handlePost = async (e) => {
     e.preventDefault();
@@ -120,6 +141,12 @@ function ClassStream({ classId, isTeacher, user, layout = "default" }) {
         <span className={styles.countBadge}>{announcements.length}</span>
       </div>
       <div className={styles.cardBody}>
+        {localMode && (
+          <p className={styles.syncWarn}>
+            <i className="ti ti-alert-circle" aria-hidden="true" />
+            Announcements are in local mode. Apply the Supabase announcements migration to restore cloud sync.
+          </p>
+        )}
         {message && (
           <p className={messageType === "success" ? styles.msgSuccess : styles.msgError}>{message}</p>
         )}
@@ -220,6 +247,12 @@ function ClassStream({ classId, isTeacher, user, layout = "default" }) {
         )}
         {message && (
           <p className={messageType === "success" ? styles.msgSuccess : styles.msgError}>{message}</p>
+        )}
+        {localMode && (
+          <p className={styles.syncWarn}>
+            <i className="ti ti-alert-circle" aria-hidden="true" />
+            Announcements are in local mode. Apply the Supabase announcements migration to restore cloud sync.
+          </p>
         )}
         <ul className={styles.list} key={refreshTick}>
           {announcements.length === 0 ? (

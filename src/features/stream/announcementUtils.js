@@ -4,6 +4,27 @@ import { isSupabaseConfigured, supabase } from "../../utils/supabaseClient";
 
 const ANNOUNCEMENTS_KEY = "announcements";
 const makeId = () => "ann_" + Math.random().toString(36).slice(2, 10);
+let remoteAnnouncementsAvailable = true;
+
+export function isAnnouncementsRemoteAvailable() {
+  return remoteAnnouncementsAvailable;
+}
+
+const isMissingAnnouncementsTableError = (err) => {
+  const code = String(err?.code || "").toUpperCase();
+  const msg = String(err?.message || "").toLowerCase();
+  return (
+    code === "42P01" ||
+    (msg.includes("announcements") &&
+      (msg.includes("does not exist") || msg.includes("not found") || msg.includes("404")))
+  );
+};
+
+const disableRemoteAnnouncementsIfMissing = (err) => {
+  if (isMissingAnnouncementsTableError(err)) {
+    remoteAnnouncementsAvailable = false;
+  }
+};
 
 export function getAnnouncements() {
   return getItem(ANNOUNCEMENTS_KEY) || [];
@@ -30,7 +51,9 @@ export function getAnnouncementsByClass(classId) {
 }
 
 export async function syncAnnouncementsByClass(classId) {
-  if (!classId || !isSupabaseConfigured) return getAnnouncementsByClass(classId);
+  if (!classId || !isSupabaseConfigured || !remoteAnnouncementsAvailable) {
+    return getAnnouncementsByClass(classId);
+  }
 
   try {
     const { data, error } = await supabase
@@ -48,7 +71,8 @@ export async function syncAnnouncementsByClass(classId) {
     const others = current.filter((a) => String(a.classId) !== String(classId));
     saveAnnouncements([...others, ...synced]);
     return synced;
-  } catch {
+  } catch (err) {
+    disableRemoteAnnouncementsIfMissing(err);
     return getAnnouncementsByClass(classId);
   }
 }
@@ -65,7 +89,7 @@ export async function createAnnouncement(classId, body, linkUrl, author) {
   const link = String(linkUrl || "").trim();
   let created;
 
-  if (isSupabaseConfigured) {
+  if (isSupabaseConfigured && remoteAnnouncementsAvailable) {
     try {
       const { data: profile, error: profileErr } = await supabase
         .from("profiles")
@@ -99,7 +123,20 @@ export async function createAnnouncement(classId, body, linkUrl, author) {
         createdAt: data.created_at,
       };
     } catch (err) {
-      return { success: false, message: err.message || "Failed to post announcement." };
+      disableRemoteAnnouncementsIfMissing(err);
+      if (!remoteAnnouncementsAvailable) {
+        created = {
+          id: makeId(),
+          classId,
+          authorEmail: author.email,
+          authorName: author.fullName || author.email,
+          body: trimmedBody,
+          linkUrl: link,
+          createdAt: new Date().toISOString(),
+        };
+      } else {
+        return { success: false, message: err.message || "Failed to post announcement." };
+      }
     }
   } else {
     created = {
@@ -134,12 +171,15 @@ export async function createAnnouncement(classId, body, linkUrl, author) {
 export async function deleteAnnouncement(announcementId, classId) {
   if (!announcementId) return { success: false, message: "Nothing to delete." };
 
-  if (isSupabaseConfigured) {
+  if (isSupabaseConfigured && remoteAnnouncementsAvailable) {
     try {
       const { error } = await supabase.from("announcements").delete().eq("id", announcementId);
       if (error) throw error;
     } catch (err) {
-      return { success: false, message: err.message || "Failed to delete announcement." };
+      disableRemoteAnnouncementsIfMissing(err);
+      if (remoteAnnouncementsAvailable) {
+        return { success: false, message: err.message || "Failed to delete announcement." };
+      }
     }
   }
 

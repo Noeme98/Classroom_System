@@ -2,6 +2,7 @@ import { getItem, setItem } from "./storage";
 import { isSupabaseConfigured, supabase } from "./supabaseClient";
 
 const NOTIFICATIONS_KEY = "notifications";
+const DEDUPE_WINDOW_MS = 90 * 1000;
 
 const getAllNotifications = () => {
   const data = getItem(NOTIFICATIONS_KEY);
@@ -48,19 +49,30 @@ export const getNotificationsForUser = (user) => {
   if (!user) return [];
   const all = getAllNotifications();
   return all
-    .filter(
-      (item) =>
-        item.recipientEmail === user.email ||
-        (item.recipientRole && item.recipientRole === user.role)
-    )
+    .filter((item) => item.recipientEmail === user.email)
     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 };
 
 export const getUnreadNotificationCount = (user) =>
   getNotificationsForUser(user).filter((item) => !item.read).length;
 
+const isDuplicateNotification = (existing, candidate) => {
+  const ts = new Date(candidate.createdAt).getTime();
+  return existing.some((item) => {
+    if (item.recipientEmail !== candidate.recipientEmail) return false;
+    if (item.title !== candidate.title || item.body !== candidate.body || item.type !== candidate.type) {
+      return false;
+    }
+    const sameMeta = JSON.stringify(item.meta || {}) === JSON.stringify(candidate.meta || {});
+    if (!sameMeta) return false;
+    const itemTs = new Date(item.createdAt).getTime();
+    return Math.abs(ts - itemTs) <= DEDUPE_WINDOW_MS;
+  });
+};
+
 export const notifyUsers = ({ recipientEmails = [], recipientRole = null, title, body, type = "info", meta = {} }) => {
-  if ((!recipientEmails || recipientEmails.length === 0) && !recipientRole) return;
+  void recipientRole;
+  if (!recipientEmails || recipientEmails.length === 0) return;
 
   const now = new Date().toISOString();
   const items = [];
@@ -80,22 +92,9 @@ export const notifyUsers = ({ recipientEmails = [], recipientRole = null, title,
     });
   });
 
-  if (recipientRole) {
-    items.push({
-      id: `notif_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
-      recipientEmail: null,
-      recipientRole,
-      title,
-      body,
-      type,
-      read: false,
-      createdAt: now,
-      meta,
-    });
-  }
-
   const existing = getAllNotifications();
-  const updated = [...items, ...existing].slice(0, 300);
+  const dedupedItems = items.filter((candidate) => !isDuplicateNotification(existing, candidate));
+  const updated = [...dedupedItems, ...existing].slice(0, 300);
   saveNotifications(updated);
 
   if (isSupabaseConfigured) {
@@ -118,19 +117,6 @@ export const notifyUsers = ({ recipientEmails = [], recipientRole = null, title,
               };
             })
             .filter(Boolean),
-          ...(recipientRole
-            ? [
-                {
-                  recipient_id: null,
-                  recipient_role: recipientRole,
-                  type,
-                  title,
-                  body,
-                  meta,
-                  is_read: false,
-                },
-              ]
-            : []),
         ];
         if (payload.length > 0) {
           await supabase.from("notifications").insert(payload);
@@ -146,9 +132,7 @@ export const markAllNotificationsRead = (user) => {
   if (!user) return;
   const all = getAllNotifications();
   const updated = all.map((item) => {
-    const target =
-      item.recipientEmail === user.email ||
-      (item.recipientRole && item.recipientRole === user.role);
+    const target = item.recipientEmail === user.email;
     return target ? { ...item, read: true } : item;
   });
   saveNotifications(updated);
@@ -160,8 +144,7 @@ export const markNotificationRead = (notificationId, user) => {
   const updated = all.map((item) => {
     const isTarget =
       item.id === notificationId &&
-      (item.recipientEmail === user.email ||
-        (item.recipientRole && item.recipientRole === user.role));
+      item.recipientEmail === user.email;
     return isTarget ? { ...item, read: true } : item;
   });
   saveNotifications(updated);
@@ -173,18 +156,15 @@ export const syncNotificationsForUser = async (user) => {
   try {
     const profile = await getProfileByEmail(user.email);
     const profileId = profile?.id || null;
+    if (!profileId) return getNotificationsForUser(user);
     const { data, error } = await supabase
       .from("notifications")
       .select("id, recipient_id, recipient_role, type, title, body, meta, is_read, created_at")
+      .eq("recipient_id", profileId)
       .order("created_at", { ascending: false })
       .limit(300);
     if (error) throw error;
-    const filtered = (data || []).filter((row) => {
-      const forUser = profileId && row.recipient_id === profileId;
-      const forRole = row.recipient_role && row.recipient_role === user.role;
-      return Boolean(forUser || forRole);
-    });
-    const mapped = filtered.map(toClientNotification);
+    const mapped = (data || []).map(toClientNotification);
     saveNotifications(mapped);
     return mapped;
   } catch {
@@ -208,11 +188,9 @@ export const markAllNotificationsReadAsync = async (user) => {
   try {
     const profile = await getProfileByEmail(user.email);
     const profileId = profile?.id || null;
-    let query = supabase.from("notifications").update({ is_read: true }).eq("recipient_role", user.role);
     if (profileId) {
       await supabase.from("notifications").update({ is_read: true }).eq("recipient_id", profileId);
     }
-    await query;
   } catch {
     // ignore remote mark failures; local state still updates
   }

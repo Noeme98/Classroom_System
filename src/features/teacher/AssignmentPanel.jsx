@@ -11,6 +11,7 @@ import {
   syncSubmissionsByClass,
 } from "../student/submissionUtils";
 import { isValidUuid } from "../../utils/uuid";
+import { isSupabaseConfigured, supabase } from "../../utils/supabaseClient";
 import styles from "./AssignmentPanel.module.css";
 
 const FEEDBACK_TEMPLATES = [
@@ -42,6 +43,7 @@ function AssignmentPanel({
   const [gradingType, setGradingType] = useState("");
   const [saving, setSaving] = useState(false);
   const [ungradedOnly, setUngradedOnly] = useState(false);
+  const [sortMode, setSortMode] = useState("latest");
   const gradingRef = useRef(null);
   // Get assignments for the currently selected class
   // Important: this keeps assignment data scoped to the class selected from TeacherView cards.
@@ -56,6 +58,11 @@ function AssignmentPanel({
   const visibleSubmissions = ungradedOnly
     ? submissions.filter((s) => s.grade === null || s.grade === undefined)
     : submissions;
+  const sortedVisibleSubmissions = [...visibleSubmissions].sort((a, b) => {
+    if (sortMode === "email") return String(a.studentEmail).localeCompare(String(b.studentEmail));
+    if (sortMode === "score") return Number(b.grade ?? -1) - Number(a.grade ?? -1);
+    return new Date(b.submittedAt).getTime() - new Date(a.submittedAt).getTime();
+  });
   useEffect(() => {
     const run = async () => {
       if (!selectedClassId) return;
@@ -78,6 +85,24 @@ function AssignmentPanel({
     if (!initialAssignmentId || !effectiveSelectedAssignment) return;
     gradingRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   }, [initialAssignmentId, effectiveSelectedAssignment]);
+
+  useEffect(() => {
+    if (!selectedClassId || !isSupabaseConfigured) return undefined;
+    const channel = supabase
+      .channel(`grading-${selectedClassId}`)
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "submissions", filter: `class_id=eq.${selectedClassId}` },
+        async () => {
+          await syncSubmissionsByClass(selectedClassId);
+          setGradingMessage("");
+        }
+      )
+      .subscribe();
+    return () => {
+      void supabase.removeChannel(channel);
+    };
+  }, [selectedClassId]);
 
   const applyFeedbackTemplate = (submissionId, text) => {
     setGradeFeedback((prev) => ({ ...prev, [submissionId]: text }));
@@ -233,7 +258,9 @@ function AssignmentPanel({
           <ul className={styles.assignmentList}>
             {assignments.map((a) => (
               <li key={a.id} className={styles.assignmentItem}>
-                <div className={styles.assignmentIcon}>📄</div>
+                <div className={styles.assignmentIcon}>
+                  <i className="ti ti-clipboard-text" aria-hidden="true" />
+                </div>
                 <div className={styles.assignmentInfo}>
                   <span className={styles.assignmentTitle}>{a.title}</span>
                   <span className={styles.assignmentDesc}>{a.description}</span>
@@ -261,14 +288,28 @@ function AssignmentPanel({
         </div>
         <div className={styles.cardBody}>
         {effectiveSelectedAssignment && submissions.length > 0 && (
-          <label className={styles.filterRow}>
-            <input
-              type="checkbox"
-              checked={ungradedOnly}
-              onChange={(e) => setUngradedOnly(e.target.checked)}
-            />
-            <span>Show ungraded only ({submissions.filter((s) => s.grade == null).length})</span>
-          </label>
+          <div className={styles.filterBar}>
+            <label className={styles.filterRow}>
+              <input
+                type="checkbox"
+                checked={ungradedOnly}
+                onChange={(e) => setUngradedOnly(e.target.checked)}
+              />
+              <span>Show ungraded only ({submissions.filter((s) => s.grade == null).length})</span>
+            </label>
+            <label className={styles.sortGroup}>
+              <span>Sort</span>
+              <select
+                value={sortMode}
+                onChange={(e) => setSortMode(e.target.value)}
+                className={styles.select}
+              >
+                <option value="latest">Latest</option>
+                <option value="email">Student email</option>
+                <option value="score">Score (high to low)</option>
+              </select>
+            </label>
+          </div>
         )}
 
         <div className={styles.field}>
@@ -312,12 +353,33 @@ function AssignmentPanel({
           </div>
         ) : (
           <ul className={styles.assignmentList}>
-            {visibleSubmissions.map((submission) => (
+            {sortedVisibleSubmissions.map((submission) => (
               <li key={submission.id} className={styles.assignmentItem}>
-                <div className={styles.assignmentIcon}>🧑‍🎓</div>
+                <div className={styles.assignmentIcon}>
+                  <i className="ti ti-user-check" aria-hidden="true" />
+                </div>
                 <div className={styles.assignmentInfo}>
-                  <span className={styles.assignmentTitle}>{submission.studentEmail}</span>
+                  <div className={styles.submissionHead}>
+                    <span className={styles.assignmentTitle}>{submission.studentEmail}</span>
+                    <span className={`${styles.submissionStatus} ${
+                      submission.returnedForRevision
+                        ? styles.statusReturned
+                        : submission.grade == null
+                          ? styles.statusPending
+                          : styles.statusGraded
+                    }`}
+                    >
+                      {submission.returnedForRevision
+                        ? "Returned"
+                        : submission.grade == null
+                          ? "Pending"
+                          : "Graded"}
+                    </span>
+                  </div>
                   <span className={styles.assignmentDesc}>{submission.answer}</span>
+                  <span className={styles.assignmentMeta}>
+                    Submitted {new Date(submission.submittedAt).toLocaleString()}
+                  </span>
                   {submission.autoScore != null &&
                     submission.autoMaxScore != null &&
                     submission.autoMaxScore > 0 && (
@@ -338,6 +400,20 @@ function AssignmentPanel({
                       }
                     />
                     <div className={styles.feedbackBlock}>
+                      <div className={styles.quickScoreRow}>
+                        {[100, 95, 90, 85, 80, 75].map((quick) => (
+                          <button
+                            key={quick}
+                            type="button"
+                            className={styles.templateChip}
+                            onClick={() =>
+                              setGradeScores((prev) => ({ ...prev, [submission.id]: String(quick) }))
+                            }
+                          >
+                            {quick}
+                          </button>
+                        ))}
+                      </div>
                       <div className={styles.templateRow}>
                         {FEEDBACK_TEMPLATES.map((text) => (
                           <button

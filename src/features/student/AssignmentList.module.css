@@ -26,6 +26,40 @@
   justify-content: space-between;
 }
 
+.backBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  background: transparent;
+  border: 0.5px solid var(--border-color);
+  border-radius: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.backBtn:hover {
+  background: var(--bg-elevated);
+}
+
+.pageHeader {
+  padding: 16px 16px 0;
+}
+
+.pageHeader h3 {
+  margin: 0 0 4px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.pageHeader p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
 .pageTitle {
   margin: 0;
   font-size: 14px;
@@ -64,12 +98,90 @@
   gap: 12px;
 }
 
-.card {
-  background: var(--bg-elevated);
+.filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.chip {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 5px 12px;
+  border-radius: 20px;
   border: 0.5px solid var(--border-color);
-  border-radius: 10px;
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.chipOn {
+  background: #f0e8ff;
+  color: #7b2fbe;
+  border-color: #c084fc;
+}
+
+.chip:hover:not(.chipOn) {
+  background: var(--bg-elevated);
+}
+
+.dividerLabel {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin: 18px 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dividerLabel::after {
+  content: "";
+  flex: 1;
+  height: 0.5px;
+  background: var(--border-color);
+}
+
+.card {
+  background: var(--bg-surface);
+  border: 0.5px solid var(--border-color);
+  border-radius: 12px;
   padding: 14px 16px;
   position: relative;
+  transition: border-color 0.15s, transform 0.1s;
+}
+
+.card:hover {
+  border-color: var(--text-tertiary);
+  transform: translateY(-1px);
+}
+
+.cardMain {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.cardContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.cardPending {
+  border-left: 3px solid #7b2fbe;
+}
+
+.cardSubmitted {
+  border-left: 3px solid #1a9e5c;
+}
+
+.cardOverdue {
+  border-left: 3px solid #e05c5c;
 }
 
 .cardNextUp {
@@ -103,9 +215,15 @@
   font-weight: 600;
   color: var(--text-primary);
   margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .duePill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
@@ -135,6 +253,31 @@
   color: var(--text-secondary);
   margin: 0 0 8px;
   line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.classLine {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+
+.metaRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.metaItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--text-tertiary);
 }
 
 .resourceLink {
@@ -145,7 +288,7 @@
   font-weight: 600;
   color: var(--accent);
   text-decoration: none;
-  margin: 0 0 8px;
+  margin: 0;
 }
 
 .resourceLink:hover {
@@ -153,16 +296,100 @@
 }
 
 .quizHint {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 4px;
   font-size: 12px;
   color: var(--accent-muted);
-  margin: 0 0 8px;
+  margin: 0;
+}
+
+.cardIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 18px;
+}
+
+.iconPurple {
+  background: #f0e8ff;
+  color: #7b2fbe;
+}
+
+.iconGreen {
+  background: #e8f8ef;
+  color: #1a9e5c;
+}
+
+.iconRed {
+  background: #fef0f0;
+  color: #e05c5c;
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 9px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.badgePurple {
+  background: #f0e8ff;
+  color: #7b2fbe;
+}
+
+.badgeGreen {
+  background: #e8f8ef;
+  color: #1a9e5c;
+}
+
+.badgeRed {
+  background: #fef0f0;
+  color: #e05c5c;
 }
 
 .statusBlock {
   margin-top: 8px;
+}
+
+.timeline {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: 0 0 8px;
+}
+
+.stagePill {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border: 0.5px solid var(--border-color);
+  border-radius: 999px;
+  padding: 3px 8px;
+  color: var(--text-tertiary);
+  background: var(--bg-elevated);
+}
+
+.stageOn {
+  color: #7b2fbe;
+  border-color: #c084fc;
+  background: #f0e8ff;
+}
+
+.stageWarn {
+  color: #9e6a1a;
+  border-color: #d4a535;
+  background: #fff8e8;
 }
 
 .submittedBadge {
@@ -197,6 +424,12 @@
   font-size: 12px;
   color: var(--text-secondary);
   line-height: 1.45;
+}
+
+.historyLine {
+  margin: 6px 0 0;
+  font-size: 11px;
+  color: var(--text-tertiary);
 }
 
 .pendingGrade {
@@ -239,6 +472,98 @@
   border-top: 0.5px solid var(--border-color);
 }
 
+.tabs {
+  display: flex;
+  border-bottom: 0.5px solid var(--border-color);
+  margin-bottom: 12px;
+}
+
+.tab {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  padding: 9px 14px;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  border-bottom: 2px solid transparent;
+}
+
+.tabOn {
+  color: #7b2fbe;
+  border-bottom-color: #7b2fbe;
+  font-weight: 600;
+}
+
+.sectionLabel {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-bottom: 8px;
+  display: block;
+}
+
+.uploadZone {
+  border: 0.5px dashed var(--border-color);
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+  cursor: pointer;
+  background: var(--bg-elevated);
+  margin-bottom: 12px;
+  display: block;
+}
+
+.uploadZone i {
+  font-size: 22px;
+  color: var(--text-tertiary);
+  margin-bottom: 6px;
+  display: block;
+}
+
+.uploadZone p {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin: 0 0 4px;
+}
+
+.uploadZone span {
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+
+.fileInput {
+  display: none;
+}
+
+.fileList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 12px;
+}
+
+.fileChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border: 0.5px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  background: var(--bg-elevated);
+}
+
+.btnRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+}
+
 .textarea {
   width: 100%;
   background: var(--bg-surface);
@@ -276,6 +601,37 @@
 
 .submitBtn:hover {
   background: var(--accent-hover);
+}
+
+.ghostBtn {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 0.5px solid var(--border-color);
+  border-radius: 8px;
+  padding: 9px 14px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.ghostBtn:hover {
+  background: var(--bg-elevated);
+}
+
+.checklist {
+  padding: 2px 0;
+}
+
+.checkItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.checkItem input {
+  accent-color: #7b2fbe;
 }
 
 .message {
@@ -344,7 +700,14 @@
   }
 
   .answerBtn,
-  .submitBtn {
+  .submitBtn,
+  .ghostBtn,
+  .backBtn {
     width: 100%;
+  }
+
+  .btnRow {
+    flex-direction: column;
+    align-items: stretch;
   }
 }
