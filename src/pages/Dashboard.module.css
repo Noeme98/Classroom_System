@@ -165,12 +165,13 @@
 .navLabel {
   font-size: 9.5px;
   font-weight: 600;
-  color: var(--text-tertiary);
+  color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 1px;
   padding: 0 8px;
   margin-bottom: 4px;
   margin-top: 10px;
+  opacity: 0.85;
 }
 
 .navScroll > :first-child.navLabel {

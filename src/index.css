@@ -1,37 +1,37 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Syne:wght@600;700&display=swap");
 
 :root {
-  --bg-page: #12111a;
-  --bg-surface: #1a1826;
-  --bg-elevated: #221e33;
-  --bg-highlight: #2d2250;
+  --bg-page: #0f0e15;
+  --bg-surface: #17151f;
+  --bg-elevated: #201d2c;
+  --bg-highlight: #2a2340;
 
-  --accent: #7b2fbe;
-  --accent-hover: #9333ea;
-  --accent-soft: #2d2250;
-  --accent-muted: #a855f7;
-  --accent-glow: rgba(123, 47, 190, 0.2);
+  --accent: #8b3fd4;
+  --accent-hover: #a855f7;
+  --accent-soft: #2a2340;
+  --accent-muted: #c084fc;
+  --accent-glow: rgba(139, 63, 212, 0.22);
 
-  --teacher: #34d399;
-  --teacher-bg: rgba(52, 211, 153, 0.12);
-  --student: #c084fc;
-  --student-bg: rgba(192, 132, 252, 0.12);
+  --teacher: #3ee0a8;
+  --teacher-bg: rgba(62, 224, 168, 0.12);
+  --student: #d4b4ff;
+  --student-bg: rgba(212, 180, 255, 0.12);
 
-  --xp-gold: #f5a623;
-  --xp-gold-bg: rgba(245, 166, 35, 0.12);
-  --success: #34d399;
-  --success-bg: rgba(52, 211, 153, 0.12);
-  --warning: #f5a623;
-  --warning-bg: rgba(245, 166, 35, 0.12);
-  --danger: #e05c5c;
-  --danger-bg: rgba(224, 92, 92, 0.12);
+  --xp-gold: #f5b84a;
+  --xp-gold-bg: rgba(245, 184, 74, 0.14);
+  --success: #3ee0a8;
+  --success-bg: rgba(62, 224, 168, 0.12);
+  --warning: #f5b84a;
+  --warning-bg: rgba(245, 184, 74, 0.14);
+  --danger: #f07070;
+  --danger-bg: rgba(240, 112, 112, 0.14);
 
-  --text-primary: #e8e6f4;
-  --text-secondary: #7a78a0;
-  --text-tertiary: #4a476a;
+  --text-primary: #f2effa;
+  --text-secondary: #c4c0dc;
+  --text-tertiary: #9b97b8;
 
-  --border: #2a2740;
-  --border-strong: #3d3060;
+  --border: #342f4a;
+  --border-strong: #4c4570;
 
   --profile-card-bg: #251e38;
   --profile-card-border: #3d3060;
@@ -148,6 +148,12 @@ textarea,
 select {
   font-family: var(--font-body);
   outline: none;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-tertiary);
+  opacity: 1;
 }
 
 a {

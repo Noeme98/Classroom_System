@@ -9,7 +9,7 @@
   letter-spacing: -0.3px;
 }
 
-.welcome p { margin: 0; font-size: 13px; color: var(--text-tertiary); }
+.welcome p { margin: 0; font-size: 13px; color: var(--text-secondary); }
 
 .statsGrid {
   display: grid;

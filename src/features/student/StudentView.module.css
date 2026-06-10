@@ -100,7 +100,7 @@
   letter-spacing: -0.3px;
 }
 
-.welcome p { margin: 0; font-size: 13px; color: var(--text-tertiary); }
+.welcome p { margin: 0; font-size: 13px; color: var(--text-secondary); }
 
 .statsGrid {
   display: grid;
@@ -217,7 +217,7 @@
   margin: 0 0 10px;
   font-size: 11px;
   line-height: 1.45;
-  color: var(--text-muted);
+  color: var(--text-secondary);
 }
 
 .joinHint strong {
@@ -339,7 +339,7 @@
 .classInfo { min-width: 0; }
 .className { display: block; font-size: 13px; font-weight: 700; color: var(--text-primary); }
 .classCode { font-size: 11px; color: var(--text-secondary); }
-.classMeta { font-size: 10px; color: var(--text-muted); margin-top: 1px; }
+.classMeta { font-size: 10px; color: var(--text-secondary); margin-top: 1px; }
 .classXP { margin-left: auto; font-size: 12px; font-weight: 700; color: var(--warning-amber); }
 
 .openBtn {
@@ -408,7 +408,7 @@
 
 .statusPending {
   background: var(--bg-elevated);
-  color: var(--text-tertiary);
+  color: var(--text-secondary);
   border: 1px solid var(--border-color);
 }
 
@@ -594,7 +594,7 @@
 .pageHeader p {
   margin: 0;
   font-size: 13px;
-  color: var(--text-tertiary);
+  color: var(--text-secondary);
 }
 
 .classSelect {
