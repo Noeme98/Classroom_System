@@ -193,6 +193,48 @@
 
 .sortBadge i { font-size: 13px; }
 
+/* ── Classes card (student "Your classes" section) ── */
+.classesCard .cardHead {
+  border-bottom: none;
+  padding-bottom: 12px;
+}
+
+.classesCard .cardAction {
+  color: var(--accent-muted);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.classesCard .joinRow {
+  margin-bottom: 8px;
+}
+
+.classesCard .joinBtn {
+  height: 32px;
+  padding: 0 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.classesCard .joinBtn:hover:not(:disabled) {
+  background: var(--bg-highlight);
+  border-color: var(--border-strong);
+}
+
+.classesCard .joinBtn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.hintAccent {
+  color: var(--accent-muted);
+  font-weight: 600;
+}
+
 .joinRow { display: flex; gap: 8px; margin-bottom: 8px; }
 
 .input {
@@ -312,6 +354,13 @@
 
 .classList, .assignmentList, .leaderboardList { list-style: none; margin: 0; padding: 0; }
 
+.classesCard .classList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+}
+
 .classItem {
   display: flex;
   align-items: center;
@@ -320,8 +369,27 @@
   border-bottom: 1px solid var(--border-color);
 }
 
+.classesCard .classItem {
+  padding: 12px 14px;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  background: var(--bg-elevated);
+  transition: border-color 0.15s ease;
+}
+
+.classesCard .classItem:hover {
+  border-color: var(--border-strong);
+}
+
 .classItem:last-child { border-bottom: 0; padding-bottom: 0; }
+.classesCard .classItem:last-child { padding-bottom: 12px; }
+
 .classItemActive { background: var(--bg-input); border-radius: 8px; padding-left: 6px; padding-right: 6px; }
+.classesCard .classItemActive {
+  border-color: var(--accent-indigo-border);
+  background: var(--accent-indigo-soft);
+  padding: 12px 14px;
+}
 
 .classIcon {
   width: 32px;
@@ -334,12 +402,82 @@
   flex-shrink: 0;
 }
 
+.classesCard .classIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  font-size: 18px;
+}
+
 .studentIcon { background: rgba(108, 99, 255, 0.14); }
 
-.classInfo { min-width: 0; }
+.classesCard .studentIcon {
+  background: var(--accent-soft);
+  color: var(--accent-muted);
+}
+
+.classInfo { min-width: 0; flex: 1; }
 .className { display: block; font-size: 13px; font-weight: 700; color: var(--text-primary); }
+.classesCard .className { font-size: 14px; margin-bottom: 3px; }
+
+.classMetaRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.metaDot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--text-tertiary);
+  flex-shrink: 0;
+}
+
 .classCode { font-size: 11px; color: var(--text-secondary); }
+.classesCard .classCode {
+  font-family: ui-monospace, "Cascadia Code", monospace;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent-muted);
+  letter-spacing: 0.04em;
+}
+
 .classMeta { font-size: 10px; color: var(--text-secondary); margin-top: 1px; }
+.classesCard .classMeta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 0;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--accent-teacher);
+}
+
+.classesCard .classMeta i {
+  font-size: 13px;
+}
+
+.xpPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: var(--warning-amber-soft);
+  border: 1px solid var(--warning-amber-border);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--warning-amber);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.xpPill i {
+  font-size: 12px;
+}
+
 .classXP { margin-left: auto; font-size: 12px; font-weight: 700; color: var(--warning-amber); }
 
 .openBtn {
@@ -352,6 +490,24 @@
   color: white;
   background: var(--accent-indigo);
   cursor: pointer;
+}
+
+.classesCard .openBtn {
+  height: 30px;
+  padding: 0 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  font-size: 12px;
+  font-weight: 600;
+  flex-shrink: 0;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.classesCard .openBtn:hover {
+  background: var(--bg-highlight);
+  border-color: var(--border-strong);
 }
 
 .assignmentItem { padding: 8px 0; border-bottom: 1px solid var(--border-color); }
@@ -707,4 +863,17 @@
   .statsGrid3 { grid-template-columns: 1fr; }
   .joinRow { flex-direction: column; }
   .badgeGrid { grid-template-columns: 1fr; }
+
+  .classesCard .classItem {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .classesCard .xpPill {
+    margin-left: 46px;
+  }
+
+  .classesCard .openBtn {
+    margin-left: auto;
+  }
 }

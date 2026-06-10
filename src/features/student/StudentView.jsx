@@ -181,7 +181,7 @@ function StudentView({ section = "overview" }) {
   };
 
   const classesCard = (
-    <article className={styles.card}>
+    <article className={`${styles.card} ${styles.classesCard}`}>
       <div className={styles.cardHead}>
         <h3 className={styles.cardTitle}>Your classes</h3>
         <span className={styles.cardAction}>Join class</span>
@@ -205,8 +205,8 @@ function StudentView({ section = "overview" }) {
         </button>
       </div>
       <p className={styles.joinHint}>
-        Click the purple code on your teacher&apos;s subject to copy it. Use digit <strong>0</strong>, not
-        letter <strong>O</strong>.
+        Click the <span className={styles.hintAccent}>purple code</span> on your teacher&apos;s subject to copy it.
+        Use digit <span className={styles.hintAccent}>0</span>, not letter <strong>O</strong>.
       </p>
 
       {message && (
@@ -230,15 +230,24 @@ function StudentView({ section = "overview" }) {
                 String(selectedClassId) === String(cls.id) ? styles.classItemActive : ""
               }`}
             >
-              <div className={`${styles.classIcon} ${styles.studentIcon}`}>📘</div>
+              <div className={`${styles.classIcon} ${styles.studentIcon}`}>
+                <i className="ti ti-square-root-2" aria-hidden="true" />
+              </div>
               <div className={styles.classInfo}>
                 <span className={styles.className}>{cls.name}</span>
-                <span className={styles.classCode}>Code: {cls.code}</span>
-                <span className={styles.classMeta}>
-                  {(classStudents[String(cls.id)] || []).length} students in class
+                <span className={styles.classMetaRow}>
+                  <span className={styles.classCode}># {cls.code}</span>
+                  <span className={styles.metaDot} aria-hidden="true" />
+                  <span className={styles.classMeta}>
+                    <i className="ti ti-users" aria-hidden="true" />
+                    {(classStudents[String(cls.id)] || []).length} students in class
+                  </span>
                 </span>
               </div>
-              <span className={styles.classXP}>{getXP(user.email, cls.id)} XP</span>
+              <span className={styles.xpPill}>
+                <i className="ti ti-bolt" aria-hidden="true" />
+                {getXP(user.email, cls.id)} XP
+              </span>
               <button type="button" className={styles.openBtn} onClick={() => navigate(buildClassUrl(cls.id))}>
                 Open
               </button>
